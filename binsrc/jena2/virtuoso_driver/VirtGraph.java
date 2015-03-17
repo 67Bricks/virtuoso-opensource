@@ -39,6 +39,9 @@ import com.hp.hpl.jena.rdf.model.impl.*;
 
 import virtuoso.jdbc4.VirtuosoConnectionPoolDataSource;
 import virtuoso.jdbc4.VirtuosoDataSource;
+import virtuoso.jdbc4.VirtuosoDate;
+import virtuoso.jdbc4.VirtuosoTime;
+import virtuoso.jdbc4.VirtuosoTimestamp;
 
 
 public class VirtGraph extends GraphBase
@@ -1043,6 +1046,25 @@ public class VirtGraph extends GraphBase
         RDFDatatype dt = null;
         dt = TypeMapper.getInstance().getSafeTypeByName("http://www.w3.org/2001/XMLSchema#hexBinary");
         return Node.createLiteral(o.toString(), null, dt);
+
+        } else if (o instanceof VirtuosoDate) {
+
+            RDFDatatype dt = null;
+            dt = TypeMapper.getInstance().getSafeTypeByName("http://www.w3.org/2001/XMLSchema#date");
+            return NodeFactory.createLiteral(((VirtuosoDate) o).toXSD_String(), null, dt);
+
+        } else if (o instanceof VirtuosoTimestamp) {
+
+            RDFDatatype dt = null;
+            dt = TypeMapper.getInstance().getSafeTypeByName("http://www.w3.org/2001/XMLSchema#dateTime");
+            return NodeFactory.createLiteral(((VirtuosoTimestamp) o).toXSD_String(), null, dt);
+
+        } else if (o instanceof VirtuosoTime) {
+
+            RDFDatatype dt = null;
+            dt = TypeMapper.getInstance().getSafeTypeByName("http://www.w3.org/2001/XMLSchema#time");
+            return NodeFactory.createLiteral(((VirtuosoTime) o).toXSD_String(), null, dt);
+
 
       } else if (o instanceof java.sql.Date) {
 
